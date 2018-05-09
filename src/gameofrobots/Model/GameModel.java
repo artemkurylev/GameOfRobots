@@ -4,11 +4,18 @@
  * and open the template in the editor.
  */
 package gameofrobots.Model;
-
 /**
  *
  * @author 1
  */
 public class GameModel {
+    GameField Field;
+    
+    public GameModel(){
+        Field = new GameField();
+    }
+    public GameField field(){
+        return this.Field;
+    }
     
 }
