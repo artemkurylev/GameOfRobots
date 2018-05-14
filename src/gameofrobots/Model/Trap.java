@@ -9,6 +9,6 @@ package gameofrobots.Model;
  *
  * @author 1
  */
-public class Trap {
+public class Trap extends StandableObject {
     
 }

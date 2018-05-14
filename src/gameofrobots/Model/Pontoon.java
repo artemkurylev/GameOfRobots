@@ -9,6 +9,6 @@ package gameofrobots.Model;
  *
  * @author 1
  */
-public class Pontoon {
+public class Pontoon extends StandableObject{
     
 }
