@@ -5,6 +5,10 @@
  */
 package gameofrobots.Model;
 
+import gameofrobots.navigation.CellPosition;
+import gameofrobots.navigation.MiddlePosition;
+import java.util.ArrayList;
+
 /**
  *
  * @author 1
@@ -30,4 +34,66 @@ public class GameField {
     public int height() {
         return this.height;
     }
+    
+    // ---------------------------- Стены ----------------------------
+    ArrayList <Wall> Walls;
+    public boolean isWall(MiddlePosition pos){
+        boolean wall = false;
+        for(Wall x:Walls){
+            if(x.middlePosition().equals(pos) )
+                wall = true;
+        }
+        return wall;
+    }
+    public boolean addWall(MiddlePosition pos, Wall obj){
+        if(pos.cellPosition().isValid()){
+            obj.setPosition(pos);
+            Walls.add(obj);
+            return true;
+        }
+        return false;
+    }
+    
+    // ---------------------------- Болота ----------------------------
+    ArrayList <Bog> Bogs;
+    public boolean isBog(CellPosition position) {
+        boolean bog = false;
+        for(Bog x:Bogs){
+            if(x.position().equals(position) )
+                bog = true;
+        }
+        return bog;
+    }
+    public boolean setBog(CellPosition pos, Bog obj){
+        if(pos.isValid()){
+            obj.setPosition(pos);
+            Bogs.add(obj);
+            return true;
+        }
+        return false;
+    }
+    
+    // ---------------------------- Понтоны ----------------------------
+    ArrayList <Pontoon> Pontoons;
+    public boolean setPontoon(CellPosition pos,Pontoon obj) {
+        if(pos.isValid()){
+            obj.setPosition(pos);
+            Pontoons.add(obj);
+            return true;
+        }
+        return false;
+    }
+    boolean isPontoon(CellPosition position) {
+        boolean pontoon = false;
+        for(Pontoon x:Pontoons){
+            if(x.position().equals(position) )
+                pontoon = true;
+        }
+        return pontoon;
+    }
+    
+    private SmallRobot smallRobot;
+    private BigRobot bigRobot;
+    
+    
 }
