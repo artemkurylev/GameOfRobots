@@ -9,6 +9,17 @@ package gameofrobots.Model;
  *
  * @author 1
  */
+import gameofrobots.navigation.MiddlePosition;
 public class Wall {
+    
+    private MiddlePosition middlePosition;
+    
+    public MiddlePosition middlePosition(){
+        return middlePosition;
+    }
+    
+    public void setPosition(MiddlePosition position){
+        middlePosition = position;
+    }
     
 }
