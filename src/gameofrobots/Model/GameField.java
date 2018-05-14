@@ -92,8 +92,47 @@ public class GameField {
         return pontoon;
     }
     
+    // ---------------------------- Капканы ----------------------------
+    ArrayList <Trap> Traps;
+    public boolean setTrap(CellPosition pos,Trap obj) {
+        if(pos.isValid()){
+            obj.setPosition(pos);
+            Traps.add(obj);
+            return true;
+        }
+        return false;
+    }
+    boolean isTrap(CellPosition position) {
+        boolean trap = false;
+        for(Trap x:Traps){
+            if(x.position().equals(position) )
+                trap = true;
+        }
+        return trap;
+    }
     private SmallRobot smallRobot;
     private BigRobot bigRobot;
     
+    public boolean setRobot(Robot rb,CellPosition position){
+        if(position.isValid()){
+            if(rb instanceof SmallRobot){
+                smallRobot = (SmallRobot)rb;
+                smallRobot.setPosition(position);
+            }
+            
+            else if(rb instanceof BigRobot){
+                bigRobot = (BigRobot)rb;
+                bigRobot.setPosition(position);
+            }
+            return true;
+        }
+        return false;
+    }
+    public CellPosition smallRobotPosition(){
+        return smallRobot.position();
+    }
+    public CellPosition bigRobotPosition(){
+        return bigRobot.position();
+    }
     
 }
