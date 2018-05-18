@@ -16,8 +16,8 @@ public class CellPosition {
     
     // -- Диапазоны возможных значений по горизонтали и вертикали для всех позиций --
 
-    private static CellRange _horizontalRange = new CellRange(0, 0);
-    private static CellRange _verticalRange = new CellRange(0, 0);
+    private static CellRange _horizontalRange = new CellRange(0, 10);
+    private static CellRange _verticalRange = new CellRange(0, 10);
 
     public static void setHorizontalRange(int min, int max){
         if(CellRange.isValidRange(min, max))

@@ -12,7 +12,7 @@ package gameofrobots.navigation;
 public class CellRange {
     // ------------------ Возможные значения ------------------
     private  int _min = 0;
-    private  int _max = 0;
+    private  int _max = 10;
 
     public CellRange(int min, int max){
         if(min < 0)     min = 0;
