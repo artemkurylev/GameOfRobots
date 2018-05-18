@@ -9,20 +9,29 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;*/
+import gameofrobots.Model.BigRobot;
 import gameofrobots.Model.GameModel;
+import gameofrobots.Model.SmallRobot;
+import gameofrobots.Model.events.RobotActionEvent;
+import gameofrobots.Model.events.RobotActionListener;
+import gameofrobots.navigation.CellPosition;
+import gameofrobots.navigation.Direction;
+import gameofrobots.navigation.MiddlePosition;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.KeyEvent;
 //import java.awt.Color;
 //import java.awt.Dimension;
-//import java.awt.event.KeyListener;
+import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
 /**
  *
  * @author 1
  */
-public class GameView extends JPanel{
+public class GameView extends JPanel implements KeyListener{
     
 // ------------------------------ Модель игры ------------------------------
     private GameModel _model;
@@ -64,6 +73,13 @@ public class GameView extends JPanel{
               
         // Отрисовка сетки
         drawGrid(g);
+        
+        // Отрисовка робота
+        Point lefTop = leftTopCell(_model.bigRobot().position());
+        drawBigRobot(g, _model.bigRobot(), lefTop);
+        // Отрисовка робота
+        lefTop = leftTopCell(_model.smallRobot().position());
+        drawSmallRobot(g, _model.smallRobot(), lefTop);
     }
     private void drawGrid(Graphics g) {
         int width  = getWidth();
@@ -82,7 +98,95 @@ public class GameView extends JPanel{
             int y = GAP + CELL_SIZE*(i-1);
             g.drawLine(0, y, width, y);
         }
+        
+    }
+    private void drawBigRobot(Graphics g, BigRobot robot, Point lefTop) {
+        g.setColor(Color.RED);   
 
+        String str = "РБ";
+        g.drawString(str, lefTop.x+CELL_SIZE/8, lefTop.y+CELL_SIZE/4+FONT_HEIGHT);
+
+        g.setColor(Color.BLACK);   // восстанваливаем цвет пера
+    }
+    private void drawSmallRobot(Graphics g, SmallRobot robot, Point lefTop) {
+        g.setColor(Color.GREEN);   
+
+        String str = "РУ";
+        g.drawString(str, lefTop.x+CELL_SIZE/8, lefTop.y+CELL_SIZE/4+FONT_HEIGHT);
+
+        g.setColor(Color.BLACK);   // восстанваливаем цвет пера
+    }
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+    @Override
+    public void keyPressed(KeyEvent ke) {
+            
+        if(ke.isControlDown())
+        {
+            if(ke.getKeyCode() == KeyEvent.VK_UP) {         // откр/закр дверь сверху
+                _model.smallRobot().setPontoon(Direction.north());
+            }
+            else if(ke.getKeyCode() == KeyEvent.VK_DOWN) {  // откр/закр дверь снизу
+                _model.smallRobot().setPontoon(Direction.south());
+            }
+            else if(ke.getKeyCode() == KeyEvent.VK_LEFT) {  // откр/закр дверь слева
+                _model.smallRobot().setPontoon(Direction.west());
+            }
+            else if(ke.getKeyCode() == KeyEvent.VK_RIGHT) { // откр/закр дверь справа
+                _model.smallRobot().setPontoon(Direction.east());
+            }
+        }
+        else
+        {
+            if(ke.getKeyCode() == KeyEvent.VK_UP) {         // перемещаемся вверх
+                _model.smallRobot().makeMove(Direction.north());
+            }
+            else if(ke.getKeyCode() == KeyEvent.VK_DOWN) {  // перемещаемся вниз
+                _model.smallRobot().makeMove(Direction.south());
+            }
+            else if(ke.getKeyCode() == KeyEvent.VK_LEFT) {  // перемещаемся влево
+                _model.smallRobot().makeMove(Direction.west());
+            }
+            else if(ke.getKeyCode() == KeyEvent.VK_RIGHT) { // перемещаемся вправо
+                _model.smallRobot().makeMove(Direction.east());
+            }
+        }
+    }
+     private Point leftTopCell(CellPosition pos) {
+        
+        int left = GAP + CELL_SIZE * (pos.column()-1);
+        int top = GAP + CELL_SIZE * (pos.row()-1);
+        
+        return new Point(left, top);
+    }
+
+    private Point leftTopCell(MiddlePosition mpos) {
+        
+        Point p = leftTopCell(mpos.cellPosition());
+        
+        if(mpos.direction().equals(Direction.south()))
+        {
+            p.y += CELL_SIZE;
+            //p.x += CELL_SIZE;
+        }
+        else if(mpos.direction().equals(Direction.east()))
+        {
+            p.x += CELL_SIZE;
+        }
+        
+        return p;
     }
     
+    @Override
+    public void keyReleased(KeyEvent e) {
+    }
+        
+    private class RepaintByAction implements RobotActionListener{
+
+        @Override
+        public void robotMakedMove(RobotActionEvent e) {
+            repaint();
+        }
+    }
 }
