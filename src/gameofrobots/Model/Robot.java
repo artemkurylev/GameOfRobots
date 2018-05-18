@@ -5,19 +5,29 @@
  */
 package gameofrobots.Model;
 
+import gameofrobots.Model.events.RobotActionEvent;
+import gameofrobots.Model.events.RobotActionListener;
 import gameofrobots.navigation.Direction;
 import gameofrobots.navigation.CellPosition;
 import gameofrobots.navigation.MiddlePosition;
+import java.util.ArrayList;
 /**
  *
  * @author 1
  */
 public class Robot {
-    private CellPosition cellPosition;
+    
+    //поле на котором стоит робот
     private GameField Field;
-    private int stun; 
+    public GameField Field(){
+        return this.Field;
+    }
+    public void setField(GameField F){
+        Field = F;
+    }
     
-    
+    //позиция робота
+    private CellPosition cellPosition;
     public CellPosition position(){
         return this.cellPosition.clone();
     };
@@ -29,6 +39,9 @@ public class Robot {
         return false;
     }
     
+  
+    //количество ходов, в течении которых робот не может двигаться.
+    private int stun; 
     public int getStun(){
         return stun;
     }
@@ -39,18 +52,20 @@ public class Robot {
         stun--;
     }
     
-    public GameField Field(){
-        return this.Field;
-    }
+    
     public void makeMove(Direction direction){
-        if(!(Field.isWall(new MiddlePosition(this.position(),direction)))){
-            this.setPosition(this.position().next(direction));
+        if(this.stun  == 0){
+            if(!(Field.isWall(new MiddlePosition(this.position(),direction)))){
+                this.setPosition(this.position().next(direction));
+            }
         }
+        else
+            this.reduceStun();   
     }
     
     public void setPontoon(Direction direction){
         if(this.Field.isBog(this.position()) && this.Field.isWall(new MiddlePosition(this.position(),direction))){
-            this.Field.setPontoon(this.position().next(direction));
+            this.Field.setPontoon(this.position().next(direction),new Pontoon());
         }
     }
     
