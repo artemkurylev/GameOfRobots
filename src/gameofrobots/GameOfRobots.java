@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import gameofrobots.Model.GameModel;
 import gameofrobots.view.GameView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 /**
  *
  * @author 1
@@ -24,6 +26,7 @@ public class GameOfRobots extends JFrame{
     public static void main(String[] args) {
 
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new GameOfRobots();
             }
@@ -33,7 +36,7 @@ public class GameOfRobots extends JFrame{
     //============================================================== constructor
     public GameOfRobots() {
         _model = new GameModel();
-        //_model.start();
+        _model.start();
         _gamePanel = new GameView(_model);
         
 //        //... Create button and check box.
@@ -62,4 +65,11 @@ public class GameOfRobots extends JFrame{
         _gamePanel.setFocusable(true);
         _gamePanel.setVisible(true);        
 }
+    class ActionNewGame implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            _model.start();
+        }
+    }
 }
+
