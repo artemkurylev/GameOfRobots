@@ -20,6 +20,8 @@ public class GameField {
 
     GameField (){
         setSize(10, 10);
+        Walls = new ArrayList<>();
+        
     }
     
     public final void setSize(int width,int height){
@@ -45,6 +47,7 @@ public class GameField {
         }
         return wall;
     }
+    
     public boolean addWall(MiddlePosition pos, Wall obj){
         if(pos.cellPosition().isValid()){
             obj.setPosition(pos);

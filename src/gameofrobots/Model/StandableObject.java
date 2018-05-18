@@ -14,7 +14,7 @@ abstract public class StandableObject {
     
     private CellPosition position;
     
-    public void SetPosition(CellPosition cellPosition){
+    public void setPosition(CellPosition cellPosition){
         position = cellPosition;
     }
     
