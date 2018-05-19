@@ -33,13 +33,14 @@ public class GameModel {
     private GameField generateField() {
         Field = new GameField();
         Random Rnd = new Random();
-        int height = Rnd.nextInt(6) + 5;
-        int width = Rnd.nextInt(6) + 5;
+        int height = 10;
+        int width = 10;
         CellPosition smallRobotPos = new CellPosition(1,1);
         Robot Hero = new SmallRobot();
         Hero.setPosition(smallRobotPos);
         smallRobot = (SmallRobot)Hero;
-        this.Field.setRobot(Hero, smallRobotPos);
+        smallRobot.addRobotActionListener(new GameEnded());
+        this.Field.setRobot(smallRobot, smallRobotPos);
         BigRobot enemy = new BigRobot();
         CellPosition bigRobotPos = new CellPosition(3,3);
         enemy.setPosition(bigRobotPos);
@@ -48,8 +49,8 @@ public class GameModel {
         
         
         
-        for(int i = 1; i <= height*2; i ++){
-            int genr = new Random().nextInt(15) + 1;
+        for(int i = 1; i <= height*4; i ++){
+            int genr = Rnd.nextInt() + 1;
             CellPosition CellPos = new CellPosition(new Random().nextInt(height),new Random().nextInt(width));
             int direct = new Random().nextInt(4) + 1;
             Direction dir;
@@ -70,7 +71,7 @@ public class GameModel {
                     dir = Direction.south();
                 }
             }
-            if(genr % 2 == 0){
+            if(genr % 2 == 1){
                 Field.addWall(new MiddlePosition(CellPos,dir),new Wall());
             }
         } 

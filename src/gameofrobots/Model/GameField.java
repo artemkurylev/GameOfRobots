@@ -21,6 +21,8 @@ public class GameField {
     GameField (){
         setSize(10, 10);
         Walls = new ArrayList<>();
+        Bogs = new ArrayList<>();
+        Traps = new ArrayList<>();
         
     }
     
@@ -121,11 +123,13 @@ public class GameField {
             if(rb instanceof SmallRobot){
                 smallRobot = (SmallRobot)rb;
                 smallRobot.setPosition(position);
+                smallRobot.setField(this);
             }
             
             else if(rb instanceof BigRobot){
                 bigRobot = (BigRobot)rb;
                 bigRobot.setPosition(position);
+                bigRobot.setField(this);
             }
             return true;
         }

@@ -60,6 +60,8 @@ public class GameView extends JPanel implements KeyListener{
         int height = 2*GAP + CELL_SIZE * _model.field().height();
         setPreferredSize(new Dimension(width, height));
         setBackground(Color.CYAN);
+        _model.smallRobot().addRobotActionListener(new GameView.RepaintByAction());
+        addKeyListener(this);
     }
     
     /** Рисуем поле */
@@ -82,7 +84,7 @@ public class GameView extends JPanel implements KeyListener{
         // Отрисовка робота
         lefTop = leftTopCell(_model.smallRobot().position());
         drawSmallRobot(g, _model.smallRobot(), lefTop);
-        // Отрисовка остальных юнитов, стен и дверей
+        // Отрисовка остальных стен, болот и др.
         CellPosition pos = new  CellPosition(1,1);
         Direction direct = Direction.east();
         boolean isPostLastColumn;
@@ -106,18 +108,17 @@ public class GameView extends JPanel implements KeyListener{
                    
                 }
                 isPostLastRow = !pos.hasNext(direct);
-                if(!isPostLastRow)    { pos = pos.next(direct);
+                if(!isPostLastRow)    
+                { 
+                    pos = pos.next(direct);
                 }
             }
             while(!isPostLastRow);
             direct = direct.opposite();
             
             isPostLastColumn = !pos.hasNext(Direction.south());
-            if(!isPostLastColumn)    { pos = pos.next(Direction.south()); }
-            direct = direct.opposite();
-            isPostLastColumn = !pos.hasNext(Direction.south());
-            if(!isPostLastColumn){ 
-                pos = pos.next(Direction.south());
+            if(!isPostLastColumn){
+                pos = pos.next(Direction.south()); 
             }
         }
         while( !isPostLastColumn );
