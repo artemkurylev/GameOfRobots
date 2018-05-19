@@ -89,7 +89,7 @@ public class GameField {
         }
         return false;
     }
-    boolean isPontoon(CellPosition position) {
+    public boolean isPontoon(CellPosition position) {
         boolean pontoon = false;
         for(Pontoon x:Pontoons){
             if(x.position().equals(position) )

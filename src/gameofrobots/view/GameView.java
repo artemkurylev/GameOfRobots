@@ -85,20 +85,27 @@ public class GameView extends JPanel implements KeyListener{
         drawGrid(g);
         
         // Отрисовка робота
-        Point lefTop = leftTopCell(_model.bigRobot().position());
-        drawBigRobot(g, _model.bigRobot(), lefTop);
-        // Отрисовка робота
-        lefTop = leftTopCell(_model.smallRobot().position());
-        drawSmallRobot(g, _model.smallRobot(), lefTop);
+        Point lefTop;
         // Отрисовка остальных стен, болот и др.
         CellPosition pos = new  CellPosition(1,1);
         Direction direct = Direction.east();
         boolean isPostLastColumn;
         do
         {
+            
             boolean isPostLastRow;
             do
-            {              
+            {
+                //Отрисовка болот
+                if(_model.field().isBog(pos)){
+                    lefTop = leftTopCell(pos);
+                    drawBog(g,lefTop);
+                }
+                //Отрисовка понтонов
+                if(_model.field().isPontoon(pos)){
+                    lefTop = leftTopCell(pos);
+                    drawPontoon(g,lefTop);
+                }
                 // Отрисовка стен
                 Direction d = Direction.north();
                 for(int n = 1; n<=4; n++)
@@ -113,11 +120,8 @@ public class GameView extends JPanel implements KeyListener{
                    }
                    
                 }
-                //Отрисовка болот
-                if(_model.field().isBog(pos)){
-                    lefTop = leftTopCell(pos);
-                    drawBog(g,lefTop);
-                }
+                
+                
                 isPostLastRow = !pos.hasNext(direct);
                 if(!isPostLastRow)    
                 { 
@@ -133,8 +137,12 @@ public class GameView extends JPanel implements KeyListener{
             }
         }
         while( !isPostLastColumn );
-
-        
+        // Отрисовка робота
+        lefTop = leftTopCell(_model.bigRobot().position());
+        drawBigRobot(g, _model.bigRobot(), lefTop);
+        // Отрисовка робота
+        lefTop = leftTopCell(_model.smallRobot().position());
+        drawSmallRobot(g, _model.smallRobot(), lefTop);   
     }
     private void drawGrid(Graphics g) {
         int width  = getWidth();
@@ -257,11 +265,21 @@ public class GameView extends JPanel implements KeyListener{
 
     private void drawBog(Graphics g, Point lefTop) {
         BufferedImage img = null;
-    try {
-        img = ImageIO.read(new File("Bog.png"));
-    } catch (IOException e) {
-        System.out.println("Изображение не загрузилось...");
+        try {
+            img = ImageIO.read(new File("Bog.png"));
+        } catch (IOException e) {
+            System.out.println("Изображение не загрузилось...");
+        }
+        g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null);
     }
+
+    private void drawPontoon(Graphics g, Point lefTop) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("Pontoon.png"));
+        } catch (IOException e) {
+            System.out.println("Изображение не загрузилось...");
+        }
         g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null);
     }
         
