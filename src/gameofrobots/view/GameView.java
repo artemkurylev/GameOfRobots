@@ -80,6 +80,49 @@ public class GameView extends JPanel implements KeyListener{
         // Отрисовка робота
         lefTop = leftTopCell(_model.smallRobot().position());
         drawSmallRobot(g, _model.smallRobot(), lefTop);
+        // Отрисовка остальных юнитов, стен и дверей
+        CellPosition pos = new  CellPosition(1,1);
+        Direction direct = Direction.east();
+        boolean isPostLastColumn;
+        do
+        {
+            boolean isPostLastRow;
+            do
+            {              
+                // Отрисовка стен и дверей
+                Direction d = Direction.north();
+                for(int n = 1; n<=4; n++)
+                {
+                   d = d.clockwise();
+                   MiddlePosition mpos = new MiddlePosition(pos, d);
+                   
+                   if(_model.field().isWall(mpos))      // Отрисовка стены
+                   {
+                        lefTop = leftTopCell(mpos);
+                        drawWall(g, lefTop, mpos.direction());
+                   }
+                   
+                }
+                isPostLastRow = !pos.hasNext(direct);
+                if(!isPostLastRow)    { pos = pos.next(direct);
+                }
+            }
+            while(!isPostLastRow);
+            direct = direct.opposite();
+            
+            isPostLastColumn = !pos.hasNext(Direction.south());
+            if(!isPostLastColumn)    { pos = pos.next(Direction.south()); }
+        }
+        while( !isPostLastColumn );
+
+        // Отрисовка целевой позиции
+            
+        direct = direct.opposite();
+            
+        isPostLastColumn = !pos.hasNext(Direction.south());
+        if(!isPostLastColumn){ 
+            pos = pos.next(Direction.south());
+        }       
     }
     private void drawGrid(Graphics g) {
         int width  = getWidth();
@@ -113,6 +156,21 @@ public class GameView extends JPanel implements KeyListener{
 
         String str = "РУ";
         g.drawString(str, lefTop.x+CELL_SIZE/8, lefTop.y+CELL_SIZE/4+FONT_HEIGHT);
+
+        g.setColor(Color.BLACK);   // восстанваливаем цвет пера
+    }
+    //отрисовка стены
+     private void drawWall(Graphics g, Point lefTop, Direction direct) {
+        g.setColor(Color.RED);   
+
+        if(direct.equals(Direction.west()) || direct.equals(Direction.east()))
+        {
+            g.drawLine(lefTop.x, lefTop.y, lefTop.x, lefTop.y+CELL_SIZE);
+        }
+        else
+        {
+            g.drawLine(lefTop.x, lefTop.y, lefTop.x+CELL_SIZE, lefTop.y);                   
+        }    
 
         g.setColor(Color.BLACK);   // восстанваливаем цвет пера
     }
