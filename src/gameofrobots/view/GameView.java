@@ -106,6 +106,11 @@ public class GameView extends JPanel implements KeyListener{
                     lefTop = leftTopCell(pos);
                     drawPontoon(g,lefTop);
                 }
+                //Отрисовка ловушек
+                if(_model.field().isTrap(pos)){
+                    lefTop = leftTopCell(pos);
+                    drawTrap(g,lefTop);
+                }
                 // Отрисовка стен
                 Direction d = Direction.north();
                 for(int n = 1; n<=4; n++)
@@ -137,10 +142,10 @@ public class GameView extends JPanel implements KeyListener{
             }
         }
         while( !isPostLastColumn );
-        // Отрисовка робота
+        // Отрисовка Большого робота
         lefTop = leftTopCell(_model.bigRobot().position());
         drawBigRobot(g, _model.bigRobot(), lefTop);
-        // Отрисовка робота
+        // Отрисовка Маленького робота
         lefTop = leftTopCell(_model.smallRobot().position());
         drawSmallRobot(g, _model.smallRobot(), lefTop);   
     }
@@ -282,6 +287,15 @@ public class GameView extends JPanel implements KeyListener{
         }
         g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null);
     }
+
+    private void drawTrap(Graphics g, Point lefTop) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("Trap.png"));
+        } catch (IOException e) {
+            System.out.println("Изображение не загрузилось...");
+        }
+        g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null);    }
         
     private class RepaintByAction implements RobotActionListener{
 

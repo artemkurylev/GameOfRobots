@@ -108,7 +108,7 @@ public class GameField {
         }
         return false;
     }
-    boolean isTrap(CellPosition position) {
+    public boolean isTrap(CellPosition position) {
         boolean trap = false;
         for(Trap x:Traps){
             if(x.position().equals(position) )
