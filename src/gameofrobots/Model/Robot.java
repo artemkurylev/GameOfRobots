@@ -46,7 +46,7 @@ public class Robot {
         return stun;
     }
     public void setStun(int stn){
-        stn = stun;
+        stun = stn;
     }
     public void reduceStun(){
         stun--;
