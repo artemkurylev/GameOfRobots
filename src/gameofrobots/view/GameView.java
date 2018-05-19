@@ -22,11 +22,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 //import java.awt.Color;
 //import java.awt.Dimension;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -93,7 +99,7 @@ public class GameView extends JPanel implements KeyListener{
             boolean isPostLastRow;
             do
             {              
-                // Отрисовка стен и дверей
+                // Отрисовка стен
                 Direction d = Direction.north();
                 for(int n = 1; n<=4; n++)
                 {
@@ -106,6 +112,11 @@ public class GameView extends JPanel implements KeyListener{
                         drawWall(g, lefTop, mpos.direction());
                    }
                    
+                }
+                //Отрисовка болот
+                if(_model.field().isBog(pos)){
+                    lefTop = leftTopCell(pos);
+                    drawBog(g,lefTop);
                 }
                 isPostLastRow = !pos.hasNext(direct);
                 if(!isPostLastRow)    
@@ -123,7 +134,7 @@ public class GameView extends JPanel implements KeyListener{
         }
         while( !isPostLastColumn );
 
-        // Отрисовка выхода           
+        
     }
     private void drawGrid(Graphics g) {
         int width  = getWidth();
@@ -242,6 +253,16 @@ public class GameView extends JPanel implements KeyListener{
     
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    private void drawBog(Graphics g, Point lefTop) {
+        BufferedImage img = null;
+    try {
+        img = ImageIO.read(new File("Bog.png"));
+    } catch (IOException e) {
+        System.out.println("Изображение не загрузилось...");
+    }
+        g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null);
     }
         
     private class RepaintByAction implements RobotActionListener{

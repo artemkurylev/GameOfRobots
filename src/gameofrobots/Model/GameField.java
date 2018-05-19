@@ -23,6 +23,7 @@ public class GameField {
         Walls = new ArrayList<>();
         Bogs = new ArrayList<>();
         Traps = new ArrayList<>();
+        Pontoons = new ArrayList<>();
         
     }
     
@@ -69,7 +70,7 @@ public class GameField {
         }
         return bog;
     }
-    public boolean setBog(CellPosition pos, Bog obj){
+    public boolean addBog(CellPosition pos, Bog obj){
         if(pos.isValid()){
             obj.setPosition(pos);
             Bogs.add(obj);

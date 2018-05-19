@@ -74,6 +74,9 @@ public class GameModel {
             if(genr % 2 == 1){
                 Field.addWall(new MiddlePosition(CellPos,dir),new Wall());
             }
+            if(genr %3 == 0){
+                Field.addBog(CellPos, new Bog());
+            }
         } 
         return Field;
     }
