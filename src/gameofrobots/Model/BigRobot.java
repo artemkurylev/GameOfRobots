@@ -5,6 +5,7 @@
  */
 package gameofrobots.Model;
 
+import gameofrobots.Model.BigRobotAction.ActionType;
 import gameofrobots.navigation.Direction;
 import gameofrobots.navigation.MiddlePosition;
 import static java.lang.Math.abs;
@@ -18,27 +19,41 @@ public class BigRobot extends Robot {
         Trap trap = new Trap();
         this.Field().setTrap(this.position().next(direction), trap);
     }
-    
+    private BigRobotIntellegence Intellect;
     public void makeAction(){
-        
-        int action = (int)(Math.random() * 10);
-        switch(action){
-            case 0:
-            {
-                this.setTrap(Direction.east());
-                break;
+        if(this.getStun() == 0){
+            Intellect = new BigRobotIntellegence(1,1,this);
+            BigRobotAction action = Intellect.chooseBigRobotAction(abs(this.position().column() - this.Field().smallRobotPosition().column()),abs(this.position().row()
+                    - this.Field().smallRobotPosition().row()));
+            if(action.action == ActionType.move){
+                this.makeMove(action.direction);
+                if(this.Field().isBog(this.position()) && !this.Field().isPontoon(this.position()))
+                    this.setStun(3);
             }
-            case 1:
-            {
-                this.setPontoon(Direction.east());
-                break;
-            }
-            default:
-            {
-                this.makeMove(calculateDirection());
-            }
+            else if(action.action == ActionType.pontoon)
+                this.setPontoon(action.direction);
+            else
+                this.setTrap(action.direction);
         }
-        
+        else this.reduceStun();
+//        int action = (int)(Math.random() * 10);
+//        switch(action){
+//            case 0:
+//            {
+//                this.setTrap(Direction.east());
+//                break;
+//            }
+//            case 1:
+//            {
+//                this.setPontoon(Direction.east());
+//                break;
+//            }
+//            default:
+//            {
+//                this.makeMove(calculateDirection());
+//            }
+//        }
+//        
     }
     
     private Direction calculateDirection(){
