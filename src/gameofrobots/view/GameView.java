@@ -17,9 +17,11 @@ import gameofrobots.Model.events.RobotActionListener;
 import gameofrobots.navigation.CellPosition;
 import gameofrobots.navigation.Direction;
 import gameofrobots.navigation.MiddlePosition;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 //import java.awt.Color;
@@ -112,17 +114,15 @@ public class GameView extends JPanel implements KeyListener{
             
             isPostLastColumn = !pos.hasNext(Direction.south());
             if(!isPostLastColumn)    { pos = pos.next(Direction.south()); }
+            direct = direct.opposite();
+            isPostLastColumn = !pos.hasNext(Direction.south());
+            if(!isPostLastColumn){ 
+                pos = pos.next(Direction.south());
+            }
         }
         while( !isPostLastColumn );
 
-        // Отрисовка целевой позиции
-            
-        direct = direct.opposite();
-            
-        isPostLastColumn = !pos.hasNext(Direction.south());
-        if(!isPostLastColumn){ 
-            pos = pos.next(Direction.south());
-        }       
+        // Отрисовка выхода           
     }
     private void drawGrid(Graphics g) {
         int width  = getWidth();
@@ -161,15 +161,18 @@ public class GameView extends JPanel implements KeyListener{
     }
     //отрисовка стены
      private void drawWall(Graphics g, Point lefTop, Direction direct) {
-        g.setColor(Color.RED);   
-
+        g.setColor(Color.RED);
+        Graphics2D g2 = (Graphics2D) g;
+        BasicStroke pen1 = new BasicStroke(3);
+        g2.setStroke(pen1);
+        
         if(direct.equals(Direction.west()) || direct.equals(Direction.east()))
         {
-            g.drawLine(lefTop.x, lefTop.y, lefTop.x, lefTop.y+CELL_SIZE);
+            g2.drawLine(lefTop.x, lefTop.y, lefTop.x, lefTop.y+CELL_SIZE);
         }
         else
         {
-            g.drawLine(lefTop.x, lefTop.y, lefTop.x+CELL_SIZE, lefTop.y);                   
+            g2.drawLine(lefTop.x, lefTop.y, lefTop.x+CELL_SIZE, lefTop.y);                   
         }    
 
         g.setColor(Color.BLACK);   // восстанваливаем цвет пера
