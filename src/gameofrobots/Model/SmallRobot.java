@@ -35,6 +35,14 @@ public class SmallRobot extends Robot {
        this.RobotMovePerformed();
        
     }
+    
+    @Override
+    public void setPontoon(Direction direction){
+        if(this.Field().isBog(this.position().next(direction)) && !this.Field().isWall(new MiddlePosition(this.position(),direction))){
+            this.Field().setPontoon(this.position().next(direction),new Pontoon());
+            RobotMovePerformed();
+        }
+    }
     //---------------------Слушатель--------------------------------------------
     private ArrayList<RobotActionListener> Listeners = new ArrayList<RobotActionListener>();
     public void addRobotActionListener(RobotActionListener ActionListener){
