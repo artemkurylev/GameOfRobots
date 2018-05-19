@@ -147,7 +147,11 @@ public class GameView extends JPanel implements KeyListener{
         drawBigRobot(g, _model.bigRobot(), lefTop);
         // Отрисовка Маленького робота
         lefTop = leftTopCell(_model.smallRobot().position());
-        drawSmallRobot(g, _model.smallRobot(), lefTop);   
+        drawSmallRobot(g, _model.smallRobot(), lefTop); 
+        
+        // Отрисовка целевой позиции
+        lefTop = leftTopCell(_model.targetpos());
+        drawTargetPos(g,lefTop);
     }
     private void drawGrid(Graphics g) {
         int width  = getWidth();
@@ -295,7 +299,18 @@ public class GameView extends JPanel implements KeyListener{
         } catch (IOException e) {
             System.out.println("Изображение не загрузилось...");
         }
-        g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null);    }
+        g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null);
+    }
+
+    private void drawTargetPos(Graphics g, Point lefTop) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("exit.png"));
+        } catch (IOException e) {
+            System.out.println("Изображение не загрузилось...");
+        }
+        g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null); 
+    }
         
     private class RepaintByAction implements RobotActionListener{
 

@@ -46,7 +46,7 @@ public class GameModel {
         enemy.setPosition(bigRobotPos);
         bigRobot = enemy;
         this.Field.setRobot(bigRobot, bigRobotPos);
-        
+        _targetPos = new CellPosition(8,8);
         
         
         for(int i = 1; i <= height*4; i ++){
@@ -79,6 +79,9 @@ public class GameModel {
             }
         } 
         return Field;
+    }
+    public CellPosition targetpos(){
+        return _targetPos;
     }
     //---------------Слушатель для определения конца игры и хода ИИ------------
     private class GameEnded implements RobotActionListener{
