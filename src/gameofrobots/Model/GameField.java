@@ -17,8 +17,9 @@ public class GameField {
     // ------------------------------ Размеры ---------------------------
     private int width;
     private int height;
-
-    GameField (){
+    private CellPosition _targetPos;
+    
+    public GameField (){
         setSize(10, 10);
         Walls = new ArrayList<>();
         Bogs = new ArrayList<>();
@@ -142,5 +143,7 @@ public class GameField {
     public CellPosition bigRobotPosition(){
         return bigRobot.position();
     }
-    
+    public void setTargetPos(CellPosition pos){
+        _targetPos = pos;
+    }
 }
