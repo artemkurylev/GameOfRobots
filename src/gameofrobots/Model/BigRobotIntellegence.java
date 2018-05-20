@@ -61,6 +61,52 @@ public class BigRobotIntellegence {
                         action.direction = Direction.east();
                     }
             }
+            else if(rowSmall < rowBig && !Field.isWall(new MiddlePosition(Pos,Direction.north()))){
+                    if (!Field.isBog(Pos.next(Direction.north()))||Field.isPontoon(Pos.next(Direction.north()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.north();
+                    }
+                    else{
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.north();
+                    }
+            }
+            else if ((rowSmall > rowBig ||(rowSmall < rowBig && Field.isWall(new MiddlePosition(Pos,Direction.north()))))
+                    && !Field.isWall(new MiddlePosition(Pos,Direction.south()))){
+                if (!Field.isBog(Pos.next(Direction.south()))||Field.isPontoon(Pos.next(Direction.south()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.south();
+                    }
+                else{
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.south();
+                    }
+            }
+            else{
+                if(Pos.hasNext(Direction.north()) && !Field.isWall(new MiddlePosition(Pos,Direction.north()))){
+                    if(!Field.isBog(Pos.next(Direction.north()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.north();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.north();
+                    }
+                        
+                }
+                else{
+                    if(!Field.isBog(Pos.next(Direction.south()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.south();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.south();
+                    }
+                }       
+            }
         }
         else if (columnSmall < columnBig){
             if(!Field.isWall(new MiddlePosition(Pos,Direction.west()))){
@@ -72,6 +118,52 @@ public class BigRobotIntellegence {
                         action.action = ActionType.pontoon;
                         action.direction = Direction.west();
                     }
+            }
+            else if(rowSmall < rowBig && !Field.isWall(new MiddlePosition(Pos,Direction.north()))){
+                    if (!Field.isBog(Pos.next(Direction.north()))||Field.isPontoon(Pos.next(Direction.north()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.north();
+                    }
+                    else{
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.north();
+                    }
+            }
+            else if ((rowSmall > rowBig ||(rowSmall < rowBig && Field.isWall(new MiddlePosition(Pos,Direction.north()))))
+                    && !Field.isWall(new MiddlePosition(Pos,Direction.south()))){
+                if (!Field.isBog(Pos.next(Direction.south()))||Field.isPontoon(Pos.next(Direction.south()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.south();
+                    }
+                else{
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.south();
+                    }
+            }
+            else{
+                if(Pos.hasNext(Direction.north()) && !Field.isWall(new MiddlePosition(Pos,Direction.north()))){
+                    if(!Field.isBog(Pos.next(Direction.north()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.north();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.north();
+                    }
+                        
+                }
+                else{
+                    if(!Field.isBog(Pos.next(Direction.south()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.south();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.south();
+                    }
+                }       
             }
         }
         else if (rowSmall < rowBig){
@@ -85,6 +177,43 @@ public class BigRobotIntellegence {
                         action.direction = Direction.north();
                     }
             }
+            else{
+                if(Pos.hasNext(Direction.east()) && !Field.isWall(new MiddlePosition(Pos,Direction.east()))){
+                    if(!Field.isBog(Pos.next(Direction.east()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.east();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.east();
+                    }
+                        
+                }
+                else if (Pos.hasNext(Direction.west()) && !Field.isWall(new MiddlePosition(Pos,Direction.west()))){
+                    if(!Field.isBog(Pos.next(Direction.west()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.west();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.west();
+                    }
+                }
+                else{ 
+                    if(!Field.isBog(Pos.next(Direction.south()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.south();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.south();
+                    }
+                }
+                
+            }
         }
         else {
             if(!Field.isWall(new MiddlePosition(Pos,Direction.south()))){
@@ -96,7 +225,44 @@ public class BigRobotIntellegence {
                         action.action = ActionType.pontoon;
                         action.direction = Direction.south();
                     }
-            }   
+            }
+            else{
+                if(Pos.hasNext(Direction.east()) && !Field.isWall(new MiddlePosition(Pos,Direction.east()))){
+                    if(!Field.isBog(Pos.next(Direction.east()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.east();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.east();
+                    }
+                        
+                }
+                else if (Pos.hasNext(Direction.west()) && !Field.isWall(new MiddlePosition(Pos,Direction.west()))){
+                    if(!Field.isBog(Pos.next(Direction.west()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.west();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.west();
+                    }
+                }
+                else{ 
+                    if(!Field.isBog(Pos.next(Direction.north()))){
+                        action.action = ActionType.move;
+                        action.direction = Direction.north();
+                    }
+                    else
+                    {
+                        action.action = ActionType.pontoon;
+                        action.direction = Direction.north();
+                    }
+                }
+                
+            }
         }
         
         return action;
@@ -133,15 +299,15 @@ public class BigRobotIntellegence {
         GameField Field = this.robot.Field();
         if(action.action == ActionType.pontoon){
             if(Pos.next(Direction.west()).isValid() &&
-                    !Field.isWall(new MiddlePosition(Pos,Direction.west())))
+                    !Field.isWall(new MiddlePosition(Pos,Direction.west()))&&Field.isBog(Pos.next(Direction.west())))
                 direction = Direction.west();
             
             else if(Pos.next(Direction.east()).isValid() &&
-                    !Field.isWall(new MiddlePosition(Pos,Direction.east())))
+                    !Field.isWall(new MiddlePosition(Pos,Direction.east()))&&Field.isBog(Pos.next(Direction.east())))
                 direction = Direction.east();
             
             else if(Pos.next(Direction.north()).isValid() &&
-                    !Field.isWall(new MiddlePosition(Pos,Direction.north())))
+                    !Field.isWall(new MiddlePosition(Pos,Direction.north()))&& Field.isBog(Pos.next(Direction.north())))
                 direction = Direction.north();
             
             else 
@@ -205,13 +371,13 @@ public class BigRobotIntellegence {
         }
         else{
             
-            if(!Field.isWall(new MiddlePosition(Pos,Direction.west())))
+            if(!Field.isWall(new MiddlePosition(Pos,Direction.west())) && Pos.hasNext(Direction.west()))
                 direction = Direction.west();
             
-            else if(!Field.isWall(new MiddlePosition(Pos,Direction.east())))
+            else if(!Field.isWall(new MiddlePosition(Pos,Direction.east())) && Pos.hasNext(Direction.east()))
                 direction = Direction.east();
             
-            else if(!Field.isWall(new MiddlePosition(Pos,Direction.north())))
+            else if(!Field.isWall(new MiddlePosition(Pos,Direction.north())) && Pos.hasNext(Direction.north()))
                 direction = Direction.north();
             
             else 
