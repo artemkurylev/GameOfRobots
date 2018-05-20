@@ -13,6 +13,9 @@ import gameofrobots.Model.GameModel;
 import gameofrobots.view.GameView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author 1
@@ -28,13 +31,17 @@ public class GameOfRobots extends JFrame{
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new GameOfRobots();
+                try {
+                    new GameOfRobots();
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(GameOfRobots.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
     
     //============================================================== constructor
-    public GameOfRobots() {
+    public GameOfRobots() throws FileNotFoundException {
         _model = new GameModel();
         _model.start();
         _gamePanel = new GameView(_model);
@@ -61,14 +68,19 @@ public class GameOfRobots extends JFrame{
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
-
+        
         _gamePanel.setFocusable(true);
-        _gamePanel.setVisible(true);        
+        _gamePanel.setVisible(true);
+        
 }
     class ActionNewGame implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent evt) {
-            _model.start();
+            try {
+                _model.start();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(GameOfRobots.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

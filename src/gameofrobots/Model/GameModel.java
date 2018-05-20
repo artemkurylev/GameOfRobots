@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import static java.lang.System.exit;
 import java.util.Random;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,10 +37,16 @@ public class GameModel {
     }
 
     private GameField generateField() throws FileNotFoundException {
+        String infoMessage = "Добро пожаловать в игру роботов. \n Вам играете за меленького робота, вам нужно добраться до выхода.\n"
+                + " Перемещение как всегда кнопками вперед назад, на болота можно ставить понтоны зажав клавищу ctrl\n "
+                + "Берегитесь большого робота и не попадайте в капканы\n Удачи!";
+        JOptionPane.showMessageDialog(null, infoMessage, "Игра завершена",JOptionPane.INFORMATION_MESSAGE);
+        infoMessage = "Чуть не забыли, нужно выбрать файл с полем игры.";
+        JOptionPane.showMessageDialog(null, infoMessage, "Игра завершена",JOptionPane.INFORMATION_MESSAGE);
         boolean fileChosen = false;
         File file;
         JFileChooser fileopen = new JFileChooser();
-            int ret = fileopen.showDialog(null, "Открыть файл");                
+            int ret = fileopen.showDialog(null, "Выберите файл для начала игры");                
             if (ret == JFileChooser.APPROVE_OPTION) {
                 file = fileopen.getSelectedFile();
                 FieldDescription F = readField(file);
@@ -105,22 +112,32 @@ public class GameModel {
     private class GameEnded implements RobotActionListener{
         @Override
         public void robotMakedMove(RobotActionEvent e) {
-            identifyGameOver();
+            if(identifyGameOver()){
+                exit(0);
+            }
             bigRobot.makeAction();
-            identifyGameOver();
+            if(identifyGameOver()){
+                exit(0);
+            }
         }
     }
-    private void identifyGameOver(){
+    private boolean identifyGameOver(){
         
         if(smallRobot.position().equals(_targetPos))
         {
-            System.out.println("Ты выйграл, красавчие");
+            System.out.println("Ты выйграл, красавчик");
+            String infoMessage = "Ты выйграл, красавчик";
+            JOptionPane.showMessageDialog(null, infoMessage, "Игра завершена",JOptionPane.INFORMATION_MESSAGE);
+            return true;
         }
         if(bigRobot.position().equals(smallRobot.position()))
         {
             System.out.println("Ха ха, ты проиграл :DDDDDD");
+            String infoMessage = "Ха ха, ты проиграл :DDDDDD";
+            JOptionPane.showMessageDialog(null, infoMessage, "Игра завершена",JOptionPane.INFORMATION_MESSAGE);
+            return true;
         }
-
+        return false;
     }
 
     public SmallRobot smallRobot() {
