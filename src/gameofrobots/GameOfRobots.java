@@ -46,14 +46,6 @@ public class GameOfRobots extends JFrame{
         _model.start();
         _gamePanel = new GameView(_model);
         
-//        //... Create button and check box.
-       // JButton newGameBtn = new JButton("Новая игра");
-       // newGameBtn.addActionListener(new ActionNewGame());
-        
-        //... Do layout
-        //JPanel controlPanel = new JPanel(new FlowLayout());
-        //controlPanel.add(newGameBtn);
-        
         //... Create content pane with graphics area in center (so it expands)
         JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
