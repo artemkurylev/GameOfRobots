@@ -21,7 +21,7 @@ public class SmallRobot extends Robot {
     @Override
     public void makeMove(Direction direction){
         //Если нет стен и болота либо стоит понтон на болоте и робот может сделать ход
-       if(this.getStun() == 0 && (!this.Field().isWall(new MiddlePosition(this.position(),direction))) 
+       if(this.position().hasNext(direction) && this.getStun() == 0 && (!this.Field().isWall(new MiddlePosition(this.position(),direction))) 
                && ((!this.Field().isBog(this.position().next(direction))))
                ||(this.Field().isPontoon(this.position().next(direction)))){
            this.setPosition(this.position().next(direction));
