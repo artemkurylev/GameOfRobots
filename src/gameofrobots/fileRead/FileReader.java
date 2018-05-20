@@ -18,9 +18,9 @@ import java.util.Scanner;
  * @author 1
  */
 public class FileReader {
-    public static FieldDescription readField() throws FileNotFoundException{
+    public static FieldDescription readField(File file) throws FileNotFoundException{
          	
-        Scanner in = new Scanner(new File("Fields\\FieldOne.txt"));
+        Scanner in = new Scanner(file);
         FieldDescription F = new FieldDescription();
         F.size = new pair(in.nextInt(),in.nextInt()); 
         F.targetPos = new pair(in.nextInt(),in.nextInt());

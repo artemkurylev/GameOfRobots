@@ -11,8 +11,11 @@ import static gameofrobots.fileRead.FileReader.readField;
 import gameofrobots.navigation.CellPosition;
 import gameofrobots.navigation.Direction;
 import gameofrobots.navigation.MiddlePosition;
+import java.io.File;
 import java.io.FileNotFoundException;
+import static java.lang.System.exit;
 import java.util.Random;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -33,56 +36,67 @@ public class GameModel {
     }
 
     private GameField generateField() throws FileNotFoundException {
-        FieldDescription F = readField();
-        Field = new GameField();
-        Field.setSize(F.size.x, F.size.y);
-        CellPosition.setHorizontalRange(1, F.size.x);
-        CellPosition.setVerticalRange(1, F.size.y);
-        Robot Hero = new SmallRobot();
-        Hero.setPosition(new CellPosition(F.SmallRobotPos.x,F.SmallRobotPos.y));
-        smallRobot = (SmallRobot)Hero;
-        smallRobot.addRobotActionListener(new GameEnded());
-        this.Field.setRobot(smallRobot, new CellPosition(F.SmallRobotPos.x,F.SmallRobotPos.y));
-        BigRobot enemy = new BigRobot();
-        CellPosition bigRobotPos = new CellPosition(F.BigRobotPos.x,F.BigRobotPos.y);
-        enemy.setPosition(bigRobotPos);
-        bigRobot = enemy;
-        this.Field.setRobot(bigRobot, bigRobotPos);
-        _targetPos = new CellPosition(F.targetPos.x,F.targetPos.y);
-        
-        
-        for(int i = 0; i < F.WallsPos.size(); i ++){
-            Wall W = new Wall();
-            CellPosition WallPos = new CellPosition(F.WallsPos.get(i).x,F.WallsPos.get(i).x);
-            Direction direction;
-            switch(F.WallDirections.get(i)){
-                case 1:
-                {
-                    direction = Direction.east();
-                    break;
+        boolean fileChosen = false;
+        File file;
+        JFileChooser fileopen = new JFileChooser();
+            int ret = fileopen.showDialog(null, "Открыть файл");                
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                file = fileopen.getSelectedFile();
+                FieldDescription F = readField(file);
+                Field = new GameField();
+                Field.setSize(F.size.x, F.size.y);
+                CellPosition.setHorizontalRange(1, F.size.x);
+                CellPosition.setVerticalRange(1, F.size.y);
+                Robot Hero = new SmallRobot();
+                Hero.setPosition(new CellPosition(F.SmallRobotPos.x,F.SmallRobotPos.y));
+                smallRobot = (SmallRobot)Hero;
+                smallRobot.addRobotActionListener(new GameEnded());
+                this.Field.setRobot(smallRobot, new CellPosition(F.SmallRobotPos.x,F.SmallRobotPos.y));
+                BigRobot enemy = new BigRobot();
+                CellPosition bigRobotPos = new CellPosition(F.BigRobotPos.x,F.BigRobotPos.y);
+                enemy.setPosition(bigRobotPos);
+                bigRobot = enemy;
+                this.Field.setRobot(bigRobot, bigRobotPos);
+                _targetPos = new CellPosition(F.targetPos.x,F.targetPos.y);
+
+
+                for(int i = 0; i < F.WallsPos.size(); i ++){
+                    Wall W = new Wall();
+                    CellPosition WallPos = new CellPosition(F.WallsPos.get(i).x,F.WallsPos.get(i).x);
+                    Direction direction;
+                    switch(F.WallDirections.get(i)){
+                        case 1:
+                        {
+                            direction = Direction.east();
+                            break;
+                        }
+                        case 2:
+                        {
+                            direction = Direction.west();
+                            break;
+                        }
+                        case 3:
+                        {
+                            direction = Direction.north();
+                            break;
+                        }
+                        default:
+                        {
+                            direction = Direction.south();
+                        }
+                    }
+                    this.Field.addWall(new MiddlePosition(WallPos,direction),W);
                 }
-                case 2:
-                {
-                    direction = Direction.west();
-                    break;
+                for(int i = 0; i < F.Bogs.size(); ++i){
+                    Bog B = new Bog();
+                    this.Field.addBog(new CellPosition(F.Bogs.get(i).x,F.Bogs.get(i).y), B);
                 }
-                case 3:
-                {
-                    direction = Direction.north();
-                    break;
-                }
-                default:
-                {
-                    direction = Direction.south();
-                }
+                return Field;
             }
-            this.Field.addWall(new MiddlePosition(WallPos,direction),W);
+            else{
+                exit(0);
         }
-        for(int i = 0; i < F.Bogs.size(); ++i){
-            Bog B = new Bog();
-            this.Field.addBog(new CellPosition(F.Bogs.get(i).x,F.Bogs.get(i).y), B);
-        }
-        return Field;
+    return null;
     }
     public CellPosition targetpos(){
         return _targetPos;
