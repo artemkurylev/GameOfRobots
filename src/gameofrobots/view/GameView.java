@@ -48,7 +48,7 @@ public class GameView extends JPanel implements KeyListener{
     
     // ------------------------------ Размеры ---------------------------------
     
-    private static final int CELL_SIZE = 30;
+    private static final int CELL_SIZE = 40;
     private static final int GAP = 2;
     private static final int FONT_HEIGHT = 15;
 
@@ -172,22 +172,25 @@ public class GameView extends JPanel implements KeyListener{
         }
         
     }
-    private void drawBigRobot(Graphics g, BigRobot robot, Point lefTop) {
-        g.setColor(Color.RED);   
-
-        String str = "РБ";
-        g.drawString(str, lefTop.x+CELL_SIZE/8, lefTop.y+CELL_SIZE/4+FONT_HEIGHT);
-
-        g.setColor(Color.BLACK);   // восстанваливаем цвет пера
-    }
     private void drawSmallRobot(Graphics g, SmallRobot robot, Point lefTop) {
-        g.setColor(Color.GREEN);   
-
-        String str = "РУ";
-        g.drawString(str, lefTop.x+CELL_SIZE/8, lefTop.y+CELL_SIZE/4+FONT_HEIGHT);
-
-        g.setColor(Color.BLACK);   // восстанваливаем цвет пера
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("smallRobot.png"));
+        } catch (IOException e) {
+            System.out.println("Изображение не загрузилось...");
+        }
+        g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null);
     }
+    private void drawBigRobot(Graphics g, BigRobot robot, Point lefTop) {
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("BigRobot.jpg"));
+        } catch (IOException e) {
+            System.out.println("Изображение не загрузилось...");
+        }
+        g.drawImage(img, lefTop.x +  5, lefTop.y + 5, CELL_SIZE - 6, CELL_SIZE - 6, null);
+    }
+    
     //отрисовка стены
      private void drawWall(Graphics g, Point lefTop, Direction direct) {
         g.setColor(Color.RED);
@@ -214,16 +217,16 @@ public class GameView extends JPanel implements KeyListener{
             
         if(ke.isControlDown())
         {
-            if(ke.getKeyCode() == KeyEvent.VK_UP) {         // откр/закр дверь сверху
+            if(ke.getKeyCode() == KeyEvent.VK_UP) {         // установить понтон верху
                 _model.smallRobot().setPontoon(Direction.north());
             }
-            else if(ke.getKeyCode() == KeyEvent.VK_DOWN) {  // откр/закр дверь снизу
+            else if(ke.getKeyCode() == KeyEvent.VK_DOWN) {  // установить понтон снизу
                 _model.smallRobot().setPontoon(Direction.south());
             }
-            else if(ke.getKeyCode() == KeyEvent.VK_LEFT) {  // откр/закр дверь слева
+            else if(ke.getKeyCode() == KeyEvent.VK_LEFT) {  // установить понтон слева
                 _model.smallRobot().setPontoon(Direction.west());
             }
-            else if(ke.getKeyCode() == KeyEvent.VK_RIGHT) { // откр/закр дверь справа
+            else if(ke.getKeyCode() == KeyEvent.VK_RIGHT) { // установить понтон справа
                 _model.smallRobot().setPontoon(Direction.east());
             }
         }
